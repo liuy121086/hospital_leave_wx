@@ -3,7 +3,6 @@
   <view class="logo-box">
     <image class="logo" src="{{userInfo.avatarUrl}}"></image>
   </view>
-
   <form bindsubmit="formSubmit">
     <view class="input-group">
       <input 

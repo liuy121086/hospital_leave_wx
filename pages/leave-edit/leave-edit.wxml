@@ -1,0 +1,105 @@
+<!-- pages/leaveEdit/leaveEdit.wxml -->
+<view class="container">
+  <view class="form-container">
+    
+    <!-- 隐藏字段 -->
+    <!-- <input type="hidden" value="{{formData.id}}" />
+    <input type="hidden" value="{{formData.status}}" /> -->
+
+    <!-- 自动生成的请假编号 -->
+    <view class="form-item">
+      <text class="label">请假编号</text>
+      <input 
+        value="{{formData.leaveNo}}" 
+        disabled 
+        placeholder="保存时自动生成" 
+      />
+    </view>
+
+
+
+
+
+    <!-- 员工选择 -->
+    <view class="form-item">
+      <text class="label">员工</text>
+      <!-- 员工下拉 -->
+<picker 
+    range="{{employeeOptions}}"
+    range-key="name"
+    value="{{employeeIndex}}"
+    bindchange="changeEmployee"
+    disabled="{{formData.status === 1}}"
+  >
+  <view class="picker {{formData.status === 1 ? 'disabled' : ''}}">{{currentEmployeeName || '请选择'}}</view>
+  </picker>
+    </view>
+
+    <!-- 请假类型 -->
+    <view class="form-item">
+      <text class="label">请假类型</text>
+      <!-- 请假类型下拉 -->
+      <picker 
+            range="{{holidayTypeOptions}}"
+            range-key="name"
+            bindchange="changeHolidayType"
+            disabled="{{formData.status === 1}}"
+            value="{{holidayTypeIndex}}"
+        >
+        <view class="picker {{formData.status === 1 ? 'disabled' : ''}}">{{currentHolidayTypeName || '请选择类型'}}</view>
+        </picker>
+    </view>
+
+    <!-- 请假时间 -->
+    <view class="form-item">
+      <text class="label">请假时间</text>
+      <picker 
+        mode="date" 
+        value="{{formData.applyTime}}"
+        bindchange="changeApplyTime"
+        disabled="{{formData.status === 1}}"
+      >
+        <view class="picker {{formData.status === 1 ? 'disabled' : ''}}">
+          {{formData.applyTime || '选择日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- 请假天数 -->
+    <view class="form-item">
+      <text class="label">请假天数</text>
+      <input 
+        type="number" 
+        value="{{formData.dayNum}}" 
+        bindinput="inputDayNum"
+        placeholder="请输入天数"
+        disabled="{{formData.status === 1}}"
+      />
+    </view>
+
+    <!-- 请假原因 -->
+    <view class="form-item">
+      <text class="label">请假原因</text>
+      <textarea 
+        value="{{formData.reason}}" 
+        bindinput="inputReason"
+        placeholder="请输入原因"
+        disabled="{{formData.status === 1}}"
+        auto-height
+      />
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="button-group">
+      <button 
+        type="primary" 
+        bindtap="saveForm"
+        disabled="{{formData.status === 1}}"
+        class="{{formData.status === 1 ? 'disabled-btn' : ''}}"
+      >
+        保存
+      </button>
+      <button bindtap="cancel">取消</button>
+    </view>
+  </view>
+</view>

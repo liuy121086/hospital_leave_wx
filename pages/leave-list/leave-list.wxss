@@ -1,129 +1,126 @@
-/* pages/leave-list/leave-list.wxss */
+
 .container {
-    padding: 20rpx;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: #f5f5f5;
-  }
-  
-  .action-bar {
-    padding: 20rpx;
-    background: #fff;
-    margin-bottom: 20rpx;
-    border-radius: 16rpx;
-  }
-  
-  .add-btn {
-    background: #07c160;
-    color: white;
-    height: 80rpx;
-    line-height: 80rpx;
-    border-radius: 12rpx;
-    font-size: 32rpx;
-  }
-  
-  .search-box {
-    background: #fff;
-    border-radius: 16rpx;
-    margin-bottom: 20rpx;
-  }
-  
-  .search-header {
+  padding: 20rpx;
+}
+
+.search-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-bottom: 20rpx;
+}
+
+.search-box input,
+.search-box picker {
+  flex: 1;
+  min-width: 200rpx;
+  padding: 15rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+}
+
+.list-container {
+  height: calc(100vh - 300rpx);
+}
+
+.list-item {
+  background: #fff;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.1);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15rpx;
+}
+
+.status-0 { color: #09bb07; }
+.status-1 { color: #888; }
+.status-2 { color: #e64340; }
+
+.item-body view {
+  margin: 8rpx 0;
+  color: #666;
+}
+
+.item-actions {
+  margin-top: 15rpx;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10rpx;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10rpx;
+  margin-top: 20rpx;
+}
+
+.pagination button {
+  min-width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 15rpx;
+}
+
+.pagination .active {
+  background: #007aff;
+  color: white;
+}
+/* 在 wxss 中添加 */
+.loading-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-icon {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.button-group {
     display: flex;
     gap: 20rpx;
     padding: 20rpx;
   }
-  
-  input {
+  .button-group button {
     flex: 1;
-    height: 70rpx;
-    border: 1rpx solid #eee;
-    padding: 0 20rpx;
-    border-radius: 12rpx;
-    font-size: 28rpx;
+  }
+  .search-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10rpx;
   }
   
-  .filter-btn {
-    width: 140rpx;
-    height: 70rpx;
-    line-height: 70rpx;
-    font-size: 28rpx;
+  .date-range {
+    display: flex;
+    align-items: center;
+    gap: 10rpx;
+    grid-column: span 2;
   }
   
-  .filter-area {
-    padding: 20rpx;
-    border-top: 1rpx solid #eee;
+  .date-picker {
+    padding: 10rpx 20rpx;
+    border: 1rpx solid #ddd;
+    border-radius: 8rpx;
+    color: #666;
   }
   
   .filter-item {
-    padding: 25rpx 0;
-    border-bottom: 1rpx solid #eee;
-    font-size: 28rpx;
-  }
-  
-  .filter-btns {
-    display: flex;
-    justify-content: flex-end;
-    gap: 30rpx;
-    margin-top: 30rpx;
-  }
-  
-  .list-container {
-    flex: 1;
-    background: #fff;
-    border-radius: 16rpx;
-  }
-  
-  .list-header, .list-item {
-    display: flex;
-    align-items: center;
-    padding: 25rpx;
-    border-bottom: 1rpx solid #eee;
-    font-size: 28rpx;
-  }
-  
-  .list-header text {
-    flex: 1;
-    font-weight: 500;
-    text-align: center;
-  }
-  
-  .list-item text {
-    flex: 1;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .actions {
-    flex: 1;
-    display: flex;
-    gap: 20rpx;
-    justify-content: center;
-  }
-  
-  .action-btn {
-    color: #07c160;
-    padding: 5rpx 10rpx;
-  }
-  
-  .delete {
-    color: #ff453a;
-  }
-  
-  .disabled-text {
-    color: #999;
-  }
-  
-  .status-1 { color: #07c160; }
-  .status-0 { color: #ff9500; }
-  .status-2 { color: #ff453a; }
-  
-  .empty, .no-more {
-    text-align: center;
-    padding: 40rpx;
-    color: #999;
-    font-size: 28rpx;
+    padding: 15rpx;
+    border: 1rpx solid #ddd;
+    border-radius: 8rpx;
+    color: #333;
   }

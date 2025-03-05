@@ -1,164 +1,263 @@
-// pages/leave-list/leave-list.js
+
 const util = require('../../utils/util.js'); // 注意路径
 Page({
-    data: {
-      searchParams: {
-        leaveNo: '',
-        empName: '',
-        status: '',
-        holidayType: '',
-        current: 1,
-        size: 10
+  data: {
+    list: [],
+    current: 1,
+    size: 3,
+    total: 0,
+    isLoading: false,
+    hasMore: true,
+    statusMap: {
+      0: '待提交',
+      1: '已提交'
+    },
+    statusOptions: [
+        {value: '', name: '全部 '},
+        {value: '0', name: '待提交'},
+        {value: '1', name: '已提交'}
+      ],
+    searchParams: {
+      leaveNo: '',
+      empName: '',
+      status: '' ,
+      reason: '',
+      dayNum: 0,
+      employeeId: '',
+      holidayType: '',
+      applyTimeBegin: '',
+      applyTimeEnd: ''
+    },
+    user: {},
+
+    // 新增选项列表
+    employeeOptions: [], // 需要从接口获取
+    holidayTypeOptions: [
+      { value: '', name: '全部' },
+      { value: 1, name: '年假' },
+      { value: 2, name: '串休' }
+    ],
+    holidayTypeMap: {
+        1: '年假',
+        2: '串休'
       },
-      listData: [],
-      total: 0,
-      statusOptions: [
-        {value: '', name: '全部'},
-        {value: '0', name: '待审批'},
-        {value: '1', name: '已通过'},
-        {value: '2', name: '已拒绝'}
-      ],
-      typeOptions: [
-        {value: '', name: '全部'},
-        {value: '1', name: '年假'},
-        {value: '2', name: '病假'},
-        {value: '3', name: '事假'}
-      ],
-      showFilter: false,
-      user: {}
-    },
-  
-    onLoad() {
-      this.loadListData()
-      this.updateDisplayName()
-      this.user = wx.getStorageSync('user')
 
-   
-    },
-  
-    async loadListData() {
-      const {searchParams, listData} = this.data
-      wx.showLoading({title: '加载中...'})
-      
-      try {
-        const res = await util.request({
-          url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/query',
-          method: 'GET',
-          data: searchParams,
-          header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.user.token}
-        })
-        
-        if(res.statusCode === 200 && res.data.code ===200) {
-        
-          this.setData({
-            listData: searchParams.current === 1 ? res.data.data.records : [...listData, ...res.data.data.records],
-            total: res.data.data.total
-          })
-          
-        }
-      } catch (error) {
-        wx.showToast({title: '加载失败', icon: 'error'})
-      } finally {
-        wx.hideLoading()
-      }
-    },
 
-    // 统一更新显示名称的逻辑
-  updateDisplayName() {
-    const { searchParams, statusOptions, typeOptions } = this.data;
-    
-    const currentStatus = statusOptions.find(item => item.value === searchParams.status);
-    const currentType = typeOptions.find(item => item.value === searchParams.holidayType);
-    
-    this.setData({
-      currentStatusName: currentStatus ? currentStatus.name : '全部',
-      currentTypeName: currentType ? currentType.name : '全部'
-    });
   },
-  
-    handleInput(e) {
-      const {field} = e.currentTarget.dataset
-      this.setData({
-        [`searchParams.${field}`]: e.detail.value
-      }, () => {
+
+
+  // 新增事件处理
+  inputReason(e) {
+    this.setData({ 'searchParams.reason': e.detail.value })
+  },
+
+  inputDayNum(e) {
+    this.setData({ 'searchParams.dayNum': parseInt(e.detail.value) || null })
+  },
+
+  changeEmployee(e) {
+    const index = e.detail.value
+    const selected = this.data.employeeOptions[index]
+    this.setData({
+      'searchParams.employeeId': selected?.value || ''
+    }, () => {
         // 数据更新后重新计算显示名称
         this.updateDisplayName();
       })
-    },
-  
-    toggleFilter() {
-      this.setData({showFilter: !this.data.showFilter})
-    },
-  
-    handleSearch() {
-      this.setData({'searchParams.current': 1}, () => {
-        this.loadListData()
+  },
+
+  changeHolidayType(e) {
+    const index = e.detail.value
+    const selected = this.data.holidayTypeOptions[index]
+    this.setData({
+      'searchParams.holidayType': selected?.value || ''
+    }, () => {
+        // 数据更新后重新计算显示名称
+        this.updateDisplayName();
       })
-    },
-  
-    resetSearch() {
-      this.setData({
-        searchParams: {
-          ...this.data.searchParams,
-          leaveNo: '',
-          empName: '',
-          status: '',
-          holidayType: '',
-          current: 1
-        }
-      }, () => {
-        this.loadListData()
+  },
+
+  changeTimeBegin(e) {
+    this.setData({ 'searchParams.applyTimeBegin': e.detail.value })
+  },
+
+  changeTimeEnd(e) {
+    this.setData({ 'searchParams.applyTimeEnd': e.detail.value })
+  },
+
+  async loadEmployees() {
+    try {
+      const res = await util.request({
+        url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/employee/list-all',
+        method: 'GET',
+        header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
       })
-    },
-  
-    onReachBottom() {
-      const {total, listData, searchParams} = this.data
-      if (listData.length < total) {
-        this.setData({'searchParams.current': searchParams.current + 1}, () => {
-          this.loadListData()
+      
+      if (res.data.code === 200) {
+        let options = res.data.data.map(item => ({
+          value: item.id,
+          name: item.empName
+        }))
+        options = [{ value: '', name: '全部' },...options]
+        this.setData({ employeeOptions: options })
+      }
+    } catch (error) {
+      console.error('加载员工列表失败', error)
+    }
+  },
+
+  onLoad() {
+    this.setData({user:wx.getStorageSync('user')});
+    this.loadData(true);
+    this.updateDisplayName();
+    this.loadEmployees();
+  },
+
+  // 加载数据
+  async loadData(isRefresh = false) {
+    // if (this.data.isLoading || !this.data.hasMore) return
+
+    this.setData({ isLoading: true })
+
+    try {
+      const res = await util.request({
+        url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/query',
+        method: 'GET',
+        data: {
+          current: isRefresh ? 1 : this.data.current+1,
+          size: this.data.size,
+          ...this.data.searchParams
+        },
+        header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
+      })
+
+      if (res.data.code === 200) {
+
+        const newList = isRefresh ? res.data.data.records : [...this.data.list, ...res.data.data.records]
+        const total = res.data.data.total
+        const hasMore = newList.length < total
+
+        this.setData({
+          list: newList,
+          total,
+          hasMore,
+          current: isRefresh ? 1 : this.data.current + 1
         })
       }
-    },
-  
-    navigateToEdit(e) {
-      const {id, status} = e.currentTarget.dataset
-      if(status === '1') return
-      wx.navigateTo({url: `/pages/leave-edit/leave-edit?id=${id}`})
-    },
-  
-    handleDelete(e) {
-      const {id, status} = e.currentTarget.dataset
-      if(status === '1') return
-      
-      wx.showModal({
-        title: '确认删除',
-        content: '确定要删除该请假记录吗？',
-        success: (res) => {
-          if (res.confirm) {
-            wx.request({
-              url: `https://aaa.bbb.cc/${id}`,
-              method: 'DELETE',
-              success: () => this.loadListData()
-            })
-          }
-        }
-      })
-    },
-  
-    // 新增方法
-    navigateToAdd() {
-      wx.navigateTo({url: '/pages/leave-add/leave-add'})
-    },
-  
-    // 状态筛选器
-    statusFilter(status) {
-      const map = {0: '待审批', 1: '已通过', 2: '已拒绝'}
-      return map[status] || '未知状态'
-    },
-  
-    // 类型筛选器
-    typeFilter(type) {
-      const map = {1: '年假', 2: '病假', 3: '事假'}
-      return map[type] || '其他类型'
+    } catch (error) {
+      wx.showToast({ title: '加载失败', icon: 'error' })
+    } finally {
+      this.setData({ isLoading: false })
     }
-  })
+  },
+
+  // 加载更多
+  loadMore() {
+    if (!this.data.isLoading && this.data.hasMore) {
+        this.loadData()
+     }
+  },
+
+  onPullDownRefresh() {
+    this.loadData(true).finally(() => {
+      wx.stopPullDownRefresh()
+    })
+  },
+
+  // 搜索相关
+  inputLeaveNo(e) {
+    this.setData({ 'searchParams.leaveNo': e.detail.value })
+  },
+
+
+  changeStatus(e) {
+    const index = e.detail.value
+    const selected = this.data.statusOptions[index]
+    this.setData({
+      'searchParams.status': selected.value
+    }, () => {
+     // 数据更新后重新计算显示名称
+     this.updateDisplayName();
+   })
+
+  },
+
+  search() {
+    this.loadData(true)
+  },
+
+  addNew() {
+    wx.navigateTo({
+      url: `/pages/leave-edit/leave-edit?id=`
+    })
+  },
+
+  // 操作相关（保持不变）
+  editItem(e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `/pages/leave-edit/leave-edit?id=${id}`
+    })
+  },
+
+  async deleteItem(e) {
+    const id = e.currentTarget.dataset.id
+    const { confirm } = await wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这条记录吗？'
+    })
+
+    if (confirm) {
+      try {
+        await util.request({
+          url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/delete/${id}`,
+          method: 'DELETE',
+          header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
+        })
+        wx.showToast({ title: '删除成功' })
+        this.loadData(true)
+      } catch (error) {
+        wx.showToast({ title: '删除失败', icon: 'error' })
+      }
+    }
+  },
+
+  async auditItem(e) {
+    const id = e.currentTarget.dataset.id
+    const { confirm } = await wx.showModal({
+      title: '确认提交',
+      content: '确定要提交这条记录吗？'
+    })
+
+    if (confirm) {
+      try {
+        await util.request({
+          url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/audit/${id}`,
+          method: 'PUT',
+          header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
+        })
+        wx.showToast({ title: '提交成功' })
+        this.loadData(true)
+      } catch (error) {
+        wx.showToast({ title: '提交失败', icon: 'error' })
+      }
+    }
+  },
+
+
+
+    updateDisplayName() {
+      const { searchParams, statusOptions,employeeOptions,holidayTypeOptions } = this.data;
+      const currentStatus = statusOptions.find(item => item.value === searchParams.status);
+      const currentEmployee = employeeOptions.find(item => item.value === searchParams.employeeId);
+      const currentHolidayType = holidayTypeOptions.find(item => item.value === searchParams.holidayType);
+      this.setData({
+        currentStatusName: currentStatus ? currentStatus.name : '全部',
+        currentEmployeeName: currentEmployee ? currentEmployee.name : '全部',
+        currentHolidayTypeName: currentHolidayType ? currentHolidayType.name : '全部'
+
+      });
+    },
+
+
+})

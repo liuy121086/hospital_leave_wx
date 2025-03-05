@@ -1,11 +1,10 @@
 {
-    
   "pages": [
     "pages/login/login",
     "pages/leave-list/leave-list",
     "pages/index/index",
-    "pages/logs/logs"
-  
+    "pages/logs/logs",
+    "pages/leave-edit/leave-edit"
   ],
   "window": {
     "navigationBarTextStyle": "black",

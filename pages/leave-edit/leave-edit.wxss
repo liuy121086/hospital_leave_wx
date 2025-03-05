@@ -1,0 +1,54 @@
+/* pages/leaveEdit/leaveEdit.wxss */
+.container {
+    padding: 30rpx;
+  }
+  
+  .form-container {
+    background: #fff;
+    border-radius: 16rpx;
+    padding: 30rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+  }
+  
+  .form-item {
+    margin-bottom: 40rpx;
+  }
+  
+  .label {
+    display: block;
+    color: #666;
+    margin-bottom: 10rpx;
+    font-size: 28rpx;
+  }
+  
+  input, .picker, textarea {
+    width: 100%;
+    padding: 20rpx;
+    border: 1rpx solid #ddd;
+    border-radius: 8rpx;
+    font-size: 28rpx;
+  }
+  
+  textarea {
+    min-height: 200rpx;
+  }
+  
+  .disabled {
+    background: #f5f5f5;
+    color: #999;
+  }
+  
+  .button-group {
+    margin-top: 60rpx;
+    display: flex;
+    gap: 30rpx;
+  }
+  
+  button {
+    flex: 1;
+  }
+  
+  .disabled-btn {
+    background: #ccc !important;
+    color: #fff !important;
+  }
