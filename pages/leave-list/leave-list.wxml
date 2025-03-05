@@ -1,0 +1,80 @@
+<!-- pages/leave-list/leave-list.wxml -->
+<view class="container">
+  <!-- 新增按钮 -->
+  <view class="action-bar">
+    <button class="add-btn" bindtap="navigateToAdd">+ 新增请假</button>
+  </view>
+
+  <!-- 搜索区域 -->
+  <view class="search-box">
+    <view class="search-header">
+      <input placeholder="请假编号" value="{{searchParams.leaveNo}}" 
+             bindinput="handleInput" data-field="leaveNo"/>
+      <input placeholder="员工姓名" value="{{searchParams.empName}}" 
+             bindinput="handleInput" data-field="empName"/>
+      <button class="filter-btn" bindtap="toggleFilter">筛选</button>
+    </view>
+
+    <view class="filter-area" wx:if="{{showFilter}}">
+        <picker 
+  value="{{searchParams.status}}" 
+  range="{{statusOptions}}" 
+  range-key="name" 
+  bindchange="handleInput" 
+  data-field="status"
+>
+  <view class="filter-item">状态：{{currentStatusName || '全部'}}</view>
+</picker>
+
+<picker 
+  value="{{searchParams.holidayType}}" 
+  range="{{typeOptions}}" 
+  range-key="name" 
+  bindchange="handleInput" 
+  data-field="holidayType"
+>
+  <view class="filter-item">类型：{{currentTypeName || '全部'}}</view>
+</picker>
+
+      <view class="filter-btns">
+        <button size="mini" bindtap="resetSearch">重置</button>
+        <button size="mini" type="primary" bindtap="handleSearch">搜索</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据列表 -->
+  <scroll-view scroll-y class="list-container" bindscrolltolower="onReachBottom">
+    <view class="list-header">
+      <text>编号</text>
+      <text>姓名</text>
+      <text>类型</text>
+      <text>天数</text>
+      <text>状态</text>
+
+      <text>操作</text>
+    </view>
+
+    <block wx:for="{{listData}}" wx:key="id">
+      <view class="list-item">
+        <text>{{item.leaveNo}}</text>
+        <text>{{item.empName}}</text>
+        <text>{{typeFilter(item.holidayType)}}</text>
+        <text>{{item.dayNum}}天</text>
+        <text class="status-{{item.status}}">{{statusFilter(item.status)}}</text>
+        <view class="actions">
+          <text class="action-btn" wx:if="{{item.status != 1}}" 
+                 data-id="{{item.id}}" data-status="{{item.status}}" 
+                 bindtap="navigateToEdit">编辑</text>
+          <text class="action-btn delete" wx:if="{{item.status != 1}}" 
+                 data-id="{{item.id}}" data-status="{{item.status}}" 
+                 bindtap="handleDelete">删除</text>
+          <text wx:else class="disabled-text">不可操作</text>
+        </view>
+      </view>
+    </block>
+
+    <view wx:if="{{listData.length === 0}}" class="empty">暂无数据</view>
+    <view wx:if="{{listData.length >= total && total > 0}}" class="no-more">没有更多数据了</view>
+  </scroll-view>
+</view>

@@ -1,0 +1,9 @@
+
+{
+    "usingComponents": {},
+    "navigationBarTitleText": "请假管理",
+    "navigationBarBackgroundColor": "#07c160",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 100
+  }

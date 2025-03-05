@@ -1,0 +1,43 @@
+<!-- pages/login/login.wxml -->
+<view class="login-container">
+  <view class="logo-box">
+    <image class="logo" src="{{userInfo.avatarUrl}}"></image>
+  </view>
+
+  <form bindsubmit="formSubmit">
+    <view class="input-group">
+      <input 
+        name="username" 
+        type="text" 
+        placeholder="请输入用户名" 
+        value="{{username}}" 
+        bindinput="onUsernameInput"
+        class="input"
+      />
+    </view>
+
+    <view class="input-group">
+      <input 
+        name="password" 
+        password 
+        placeholder="请输入密码" 
+        value="{{password}}" 
+        bindinput="onPasswordInput"
+        class="input"
+      />
+    </view>
+
+    <button 
+      form-type="submit" 
+      class="login-btn" 
+      loading="{{loading}}" 
+      disabled="{{!canSubmit}}"
+    >
+      登录
+    </button>
+  </form>
+
+  <view class="footer">
+    <!-- <text class="register-text" bindtap="gotoRegister">没有账号？立即注册</text> -->
+  </view>
+</view>
