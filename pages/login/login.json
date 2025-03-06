@@ -1,6 +1,6 @@
 {
     "usingComponents": {},
-    "navigationBarTitleText": "用户登录",
+    "navigationBarTitleText": "考勤管理系统",
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black"
   }

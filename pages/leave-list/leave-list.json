@@ -1,6 +1,6 @@
 
 {
     "usingComponents": {},
-    "navigationBarTitleText": "请假列表",
+    "navigationBarTitleText": "考勤管理系统",
     "enablePullDownRefresh": true
 }
