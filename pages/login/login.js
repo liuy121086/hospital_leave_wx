@@ -54,8 +54,6 @@ Page({
               icon: 'success'
             });
             // 存储token并跳转
-
-            
             wx.setStorageSync('user', res.data.data);
 
             wx.navigateTo({
@@ -63,11 +61,14 @@ Page({
             });
 
           } else {
-            this.showError(res.data.message || '登录失败');
+            // 登录失败处理
+            //this.showError(res.data.message || '登录失败');
+            wx.showToast({ title: res.data.message|| '登录失败',icon: 'error' })
           }
         },
         fail: (err) => {
-          this.showError('网络请求失败');
+          //this.showError('网络请求失败');
+          wx.showToast({ title: '网络请求失败',icon: 'error' })
         },
         complete: () => {
           this.setData({ loading: false });

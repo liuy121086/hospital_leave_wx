@@ -231,12 +231,18 @@ Page({
 
     if (confirm) {
       try {
-        await util.request({
+        const res = await util.request({
           url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/audit/${id}`,
           method: 'PUT',
           header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
         })
-        wx.showToast({ title: '提交成功' })
+
+        if (res.data.code === 200) {
+            wx.showToast({ title: '提交成功' })
+        } else {
+            wx.showToast({ title: res.data.message,icon: 'error' })
+        }
+
         this.loadData(true)
       } catch (error) {
         wx.showToast({ title: '提交失败', icon: 'error' })
