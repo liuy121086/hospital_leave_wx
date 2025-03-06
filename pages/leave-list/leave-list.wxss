@@ -1,126 +1,175 @@
-
+/* pages/leaveList/leaveList.wxss */
 .container {
-  padding: 20rpx;
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  padding: 15px;
+  color: #212121;
+  font-size: 14px;
+  /* 新增容器限制 */
+  box-sizing: border-box;
 }
 
+/* 搜索区域 */
 .search-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  /* 新增宽度限制 */
+  width: calc(100%); /* 抵消父容器padding */
+  margin: 0 auto 5px;
+  box-sizing: border-box;
+}
+
+input {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background: #f8f8f8;
+}
+
+input,
+.filter-item,
+.date-picker {
+  /* 新增宽度限制 */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+input::placeholder {
+  color: #999;
+}
+
+/* 下拉选择器样式 */
+.filter-item {
+  padding: 8px 12px;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.filter-item::after {
+  content: ">";
+  position: absolute;
+  right: 12px;
+  transform: rotate(90deg);
+  color: #999;
+}
+
+/* 日期范围 */
+.date-range {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10rpx;
-  margin-bottom: 20rpx;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  width: 100%;
 }
 
-.search-box input,
-.search-box picker {
+.date-range > picker {
   flex: 1;
-  min-width: 200rpx;
-  padding: 15rpx;
-  border: 1rpx solid #ddd;
-  border-radius: 8rpx;
+  min-width: 0;
 }
 
+.date-picker {
+  padding: 8px 12px;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  flex: 1;
+  text-align: center;
+}
+
+/* 按钮组 */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  /* 新增宽度限制 */
+  width: calc(100%); /* 抵消父容器padding */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  flex: 1;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 2.4;
+  transition: all 0.3s;
+  /* 防止内容溢出 */
+  min-width: 0;
+  padding: 0 8px;
+}
+
+button[type="default"] {
+  background: #fff;
+  border: 1px solid #00a1d6;
+  color: #00a1d6;
+}
+
+button[type="primary"] {
+  background: #00a1d6;
+  color: #fff;
+}
+
+/* 列表项 */
 .list-container {
-  height: calc(100vh - 300rpx);
+  height: calc(100vh - 260px);
+  /* 新增宽度限制 */
+  width: calc(100%);
+  margin: 0 auto;
 }
 
 .list-item {
   background: #fff;
-  margin-bottom: 20rpx;
-  padding: 20rpx;
-  border-radius: 10rpx;
-  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  /* 确保与搜索区域同宽 */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .item-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15rpx;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
 }
 
-.status-0 { color: #09bb07; }
-.status-1 { color: #888; }
-.status-2 { color: #e64340; }
+.status-0 { color: #f56c6c; } /* 待提交 */
+.status-1 { color: #67c23a; } /* 已提交 */
+.status-2 { color: #909399; } /* 已撤回 */
 
 .item-body view {
-  margin: 8rpx 0;
+  margin-bottom: 6px;
   color: #666;
 }
 
 .item-actions {
-  margin-top: 15rpx;
   display: flex;
+  gap: 8px;
   justify-content: flex-end;
-  gap: 10rpx;
+  margin-top: 12px;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 10rpx;
-  margin-top: 20rpx;
+.item-actions button {
+  line-height: 1.8;
+  min-width: 60px;
+  font-size: 12px;
+  border-radius: 15px;
 }
 
-.pagination button {
-  min-width: 60rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  padding: 0 15rpx;
-}
-
-.pagination .active {
-  background: #007aff;
-  color: white;
-}
-/* 在 wxss 中添加 */
+/* 加载提示 */
 .loading-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  color: #999;
+  padding: 15px;
+  font-size: 12px;
 }
-
-.loading-icon {
-  width: 30rpx;
-  height: 30rpx;
-  margin-right: 10rpx;
-  animation: rotate 1s linear infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.button-group {
-    display: flex;
-    gap: 20rpx;
-    padding: 20rpx;
-  }
-  .button-group button {
-    flex: 1;
-  }
-  .search-box {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10rpx;
-  }
-  
-  .date-range {
-    display: flex;
-    align-items: center;
-    gap: 10rpx;
-    grid-column: span 2;
-  }
-  
-  .date-picker {
-    padding: 10rpx 20rpx;
-    border: 1rpx solid #ddd;
-    border-radius: 8rpx;
-    color: #666;
-  }
-  
-  .filter-item {
-    padding: 15rpx;
-    border: 1rpx solid #ddd;
-    border-radius: 8rpx;
-    color: #333;
-  }

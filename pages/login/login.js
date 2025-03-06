@@ -34,7 +34,7 @@ Page({
     formSubmit(e) {
       if (!this.data.canSubmit || this.data.loading) return;
   
-      this.getUserProfile();
+      //this.getUserProfile();
 
       this.setData({ loading: true });
       

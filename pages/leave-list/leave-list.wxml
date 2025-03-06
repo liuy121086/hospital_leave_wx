@@ -51,14 +51,14 @@
     </picker>
   </view>
 
-
-  </view>
-
-  <!-- 按钮容器 -->
+<!-- 按钮容器 -->
 <view class="button-group">
-  <button type="default" bindtap="addNew">新增</button>
+  <button type="primary" bindtap="addNew">新增</button>
   <button type="primary" bindtap="search">搜索</button>
 </view>
+  </view>
+
+
 
   <!-- 列表区域 -->
   <scroll-view
@@ -82,12 +82,12 @@
       </view>
 
       <view class="item-actions" wx:if="{{item.status != 1}}">
-        <button size="mini" bindtap="editItem" data-id="{{item.id}}">编辑</button>
-        <button size="mini" type="warn" bindtap="deleteItem" data-id="{{item.id}}">删除</button>
-        <button size="mini" type="info" bindtap="auditItem" data-id="{{item.id}}">提交</button>
+        <button  type="default" bindtap="editItem" data-id="{{item.id}}">编辑</button>
+        <button  type="default" bindtap="deleteItem" data-id="{{item.id}}">删除</button>
+        <button  type="default" bindtap="auditItem" data-id="{{item.id}}">提交</button>
       </view>
       <view class="item-actions" wx:if="{{item.status === 1}}">
-        <button size="mini" bindtap="editItem" data-id="{{item.id}}">详情</button>
+        <button type="default" bindtap="editItem" data-id="{{item.id}}">详情</button>
       </view>
     </view>
 
