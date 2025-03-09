@@ -77,6 +77,12 @@
         <view>姓名：{{item.empName}}</view>
         <view>科室：{{item.className}}</view>
         <view>类型：{{holidayTypeMap[item.holidayType]}}</view>
+        
+        <view>
+        剩余{{holidayTypeMap[item.holidayType]}}：
+        <text wx:if="{{item.holidayType == 1 }}" style="background-color: {{item.yearHolidays >= 4 ? '#4CAF50' : item.yearHolidays >0? '#FF9800' : '#f40' }}; padding: 2px 5px; border-radius: 5px;font-weight: bold;"> {{item.yearHolidays}}天 </text>
+        <text wx:else style="background-color: {{item.otherHolidays >= 4 ? '#4CAF50' : item.otherHolidays >0? '#FF9800' : '#f40'}}; padding: 2px 5px; border-radius: 5px;font-weight: bold;"> {{item.otherHolidays}}天 </text>
+        </view>
         <view>天数：{{item.dayNum}}天</view>
         <view>时间：{{item.applyTime}}</view>
       </view>
