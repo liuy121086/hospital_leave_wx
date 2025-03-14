@@ -124,7 +124,6 @@
         保存
       </button>
       <button type="primary" bindtap="cancel">取消</button>
-      <button type="primary" bindtap="calculateHours">dddd</button>
     </view>
   </view>
 </view>
