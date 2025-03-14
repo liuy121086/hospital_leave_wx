@@ -11,7 +11,12 @@ Page({
         holidayType: '',
         applyTime: '',
         dayNum: '',
-        reason: ''
+        reason: '',
+        startDate: '2025-01-01', // 默认开始日期
+        startTime: '00:00',     // 默认开始时间
+        endDate: '2025-01-01',   // 默认结束日期
+        endTime: '00:00',       // 默认结束时间
+        hours: '0'            // 计算结果
       },
       employeeOptions: [],
       holidayTypeOptions: [
@@ -33,6 +38,69 @@ Page({
       this.loadEmployees()
     },
   
+
+ // 开始日期变化事件
+ onStartDateChange(e) {
+    this.setData({
+      'formData.startDate': e.detail.value,
+    });
+    this.calculateHours()
+  },
+
+  // 开始时间变化事件
+  onStartTimeChange(e) {
+    this.setData({
+      'formData.startTime': e.detail.value,
+    });
+    this.calculateHours()
+  },
+
+  // 结束日期变化事件
+  onEndDateChange(e) {
+    this.setData({
+      'formData.endDate': e.detail.value,
+    });
+    this.calculateHours()
+  },
+
+  // 结束时间变化事件
+  onEndTimeChange(e) {
+    this.setData({
+      'formData.endTime': e.detail.value,
+    });
+    this.calculateHours()
+  },
+
+
+   // 计算小时数
+   async calculateHours() {
+    const { startDate, startTime, endDate, endTime } = this.data.formData
+console.log(!startDate&startTime&endDate&endTime)
+    if(!startDate&startTime&endDate&endTime) return
+
+    // 拼接完整的日期时间字符串
+    const startDateTime = `${startDate}T${startTime}`
+    const endDateTime = `${endDate}T${endTime}`
+
+    // 调用接口
+    try {
+        const res = await util.request({
+          url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/getHours',
+          method: 'GET',
+          data: {
+            'a':startDateTime,
+            'b':endDateTime
+          },
+          header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
+        })
+        
+        if (res.data.code === 200) {
+          this.setData({ 'formData.hours': res.data.data })
+        }
+      } catch (error) {
+        console.error('加载员工列表失败', error)
+      }
+  },
 
     changeEmployee(e) {
         const index = e.detail.value
@@ -209,7 +277,7 @@ Page({
   
     // 表单验证
     validateForm() {
-      const { employeeId, holidayType, applyTime, dayNum, reason } = this.data.formData
+      const { employeeId, holidayType, applyTime, dayNum, reason,startDate, startTime, endDate, endTime } = this.data.formData
       if (!employeeId) {
         wx.showToast({ title: '请选择员工', icon: 'none' })
         return false
@@ -218,12 +286,20 @@ Page({
         wx.showToast({ title: '请选择请假类型', icon: 'none' })
         return false
       }
-      if (!applyTime) {
-        wx.showToast({ title: '请选择请假时间', icon: 'none' })
+      if (!startDate) {
+        wx.showToast({ title: '请选择开始日期', icon: 'none' })
         return false
       }
-      if (!dayNum || dayNum <= 0) {
-        wx.showToast({ title: '请输入有效天数', icon: 'none' })
+      if (!startTime) {
+        wx.showToast({ title: '请选择开始时间', icon: 'none' })
+        return false
+      }
+      if (!endDate) {
+        wx.showToast({ title: '请选择结束日期', icon: 'none' })
+        return false
+      }
+      if (!endTime) {
+        wx.showToast({ title: '请选择结束时间', icon: 'none' })
         return false
       }
       if (!reason.trim()) {

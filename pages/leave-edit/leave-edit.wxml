@@ -48,7 +48,7 @@
     </view>
 
     <!-- 请假时间 -->
-    <view class="form-item">
+    <!-- <view class="form-item">
       <picker 
         mode="date" 
         value="{{formData.applyTime}}"
@@ -59,19 +59,49 @@
           请假日期：{{formData.applyTime || '请选择'}}
         </view>
       </picker>
+    </view> -->
+
+    <view class="form-item">
+    
+        <!-- 开始日期选择 -->
+        <picker mode="date" value="{{formData.startDate}}" start="2023-01-01" end="2027-12-31" bindchange="onStartDateChange">
+            <view class="picker">
+            开始日期: {{formData.startDate}}
+            </view>
+        </picker>
+        <!-- 开始时间选择 -->
+        <picker mode="time" value="{{formData.startTime}}" bindchange="onStartTimeChange">
+            <view class="picker">
+            开始时间: {{formData.startTime}}
+            </view>
+        </picker>
+
+        <!-- 结束日期选择 -->
+        <picker mode="date" value="{{formData.endDate}}" start="2023-01-01" end="2027-12-31" bindchange="onEndDateChange">
+            <view class="picker">
+            结束日期: {{formData.endDate}}
+            </view>
+        </picker>
+        <!-- 结束时间选择 -->
+        <picker mode="time" value="{{formData.endTime}}" bindchange="onEndTimeChange">
+            <view class="picker">
+            结束时间: {{formData.endTime}}
+            </view>
+        </picker>
+    
+    
     </view>
 
     <!-- 请假天数 -->
     <view class="form-item">
       <input 
         type="number" 
-        value="{{formData.dayNum}}" 
-        bindinput="inputDayNum"
-        placeholder="请输入天数"
-        disabled="{{formData.status === 1}}"
+        value="{{formData.hours}}" 
+        placeholder="请假小时数"
+        disabled
       />
     </view>
-
+    
     <!-- 请假原因 -->
     <view class="form-item">
       <textarea 
@@ -94,6 +124,7 @@
         保存
       </button>
       <button type="primary" bindtap="cancel">取消</button>
+      <button type="primary" bindtap="calculateHours">dddd</button>
     </view>
   </view>
 </view>
