@@ -57,7 +57,8 @@ Page({
             wx.setStorageSync('user', res.data.data);
 
             wx.navigateTo({
-              url: '/pages/leave-list/leave-list'
+            //   url: '/pages/leave-list/leave-list'
+              url: '/pages/index/index'
             });
 
           } else {

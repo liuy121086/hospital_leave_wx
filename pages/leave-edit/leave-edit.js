@@ -75,17 +75,24 @@ Page({
    // 计算小时数
    async calculateHours() {
     const { startDate, startTime, endDate, endTime } = this.data.formData
-console.log(!startDate&startTime&endDate&endTime)
+
     if(!startDate&startTime&endDate&endTime) return
 
     // 拼接完整的日期时间字符串
     const startDateTime = `${startDate}T${startTime}`
     const endDateTime = `${endDate}T${endTime}`
 
+
+    // 显示加载动画
+    wx.showLoading({
+        title: '加载中...', // 加载动画的提示文字
+        mask: true // 是否显示透明蒙层，防止触摸穿透
+      });
+
     // 调用接口
     try {
         const res = await util.request({
-          url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/getHours',
+          url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/get-leave-hours',
           method: 'GET',
           data: {
             'a':startDateTime,
@@ -94,11 +101,17 @@ console.log(!startDate&startTime&endDate&endTime)
           header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
         })
         
+        // 隐藏加载动画
+        wx.hideLoading();
         if (res.data.code === 200) {
           this.setData({ 'formData.hours': res.data.data })
+        } else {
+            wx.showToast({ title: res.data.message,icon: 'error' })
         }
       } catch (error) {
         console.error('加载员工列表失败', error)
+        // 隐藏加载动画
+        wx.hideLoading();
       }
   },
 
@@ -253,6 +266,12 @@ console.log(!startDate&startTime&endDate&endTime)
       // 验证必填项
       if (!this.validateForm()) return
   
+
+      wx.showLoading({
+        title: '保存中...', // 加载动画的提示文字
+        mask: true // 是否显示透明蒙层，防止触摸穿透
+      });
+
       const url = this.data.formData.id 
         ? `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/save`
         : 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/save'
@@ -264,6 +283,9 @@ console.log(!startDate&startTime&endDate&endTime)
           data: this.data.formData,
           header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
         })
+
+        // 隐藏加载动画
+        wx.hideLoading();
         wx.showToast({
           title: '保存成功',
           success: () => {
@@ -271,6 +293,8 @@ console.log(!startDate&startTime&endDate&endTime)
           }
         })
       } catch (error) {
+          // 隐藏加载动画
+          wx.hideLoading();
         wx.showToast({ title: '保存失败', icon: 'error' })
       }
     },

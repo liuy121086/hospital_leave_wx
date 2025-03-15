@@ -230,12 +230,21 @@ Page({
     })
 
     if (confirm) {
+
+        wx.showLoading({
+        title: '提交中...', // 加载动画的提示文字
+        mask: true // 是否显示透明蒙层，防止触摸穿透
+        });
+
       try {
         const res = await util.request({
           url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/audit/${id}`,
           method: 'PUT',
           header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
         })
+
+        // 隐藏加载动画
+        wx.hideLoading();
 
         if (res.data.code === 200) {
             wx.showToast({ title: '提交成功' })
@@ -245,6 +254,8 @@ Page({
 
         this.loadData(true)
       } catch (error) {
+          // 隐藏加载动画
+        wx.hideLoading();
         wx.showToast({ title: '提交失败', icon: 'error' })
       }
     }
