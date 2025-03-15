@@ -100,6 +100,7 @@ Page({
         }))
         options = [{ value: '', name: '全部' },...options]
         this.setData({ employeeOptions: options })
+        wx.setStorageSync('userList', options);
       }
     } catch (error) {
       console.error('加载员工列表失败', error)

@@ -35,7 +35,8 @@ Page({
       } else {
         this.generateLeaveNo()
       }
-      this.loadEmployees()
+      this.setData({ employeeOptions: wx.getStorageSync('userList') })
+      //this.loadEmployees()
     },
   
 
@@ -164,7 +165,7 @@ Page({
               value: item.id,
               name: item.empName
             }))
-          
+        
             this.setData({ employeeOptions: options })
           }
         } catch (error) {
@@ -196,6 +197,14 @@ Page({
   
     // 加载详情
     async loadDetail(id) {
+
+        // 显示加载动画
+    wx.showLoading({
+        title: '加载中...', // 加载动画的提示文字
+        mask: true // 是否显示透明蒙层，防止触摸穿透
+      });
+
+
       const res = await util.request({
         url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/get/${id}`,
         method: 'GET',
@@ -223,6 +232,8 @@ Page({
         this.updateDisplayName();
       })
 
+      // 隐藏加载动画
+      wx.hideLoading();
       
     },
   
