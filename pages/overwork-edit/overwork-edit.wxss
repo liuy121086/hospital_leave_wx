@@ -1,0 +1,151 @@
+/* pages/leaveEdit/leaveEdit.wxss */
+.container {
+  padding: 15px;
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.form-container {
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  width: calc(100% );
+  margin: 0 auto 15px;
+  box-sizing: border-box;
+}
+
+.form-item {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+
+
+.label {
+  width: 80px;
+  color: #606266;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* 统一输入控件样式 */
+input, textarea, .picker {
+  flex: 1;
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #212121;
+  background: #f8f8f8;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* 输入框聚焦样式 */
+input:focus, textarea:focus {
+  border-color: #00a1d6;
+}
+
+textarea {
+  height: auto;
+  min-height: 80px;
+  line-height: 1.5;
+  width: 100%;
+  resize: vertical;
+}
+
+/* 下拉选择器样式 */
+.picker {
+  position: relative;
+  padding-right: 24px !important;
+  display: flex;
+  align-items: center;
+  width: 100% !important;
+  min-width: 0;
+  max-width: 100%;
+}
+picker {
+  width: 100% !important;
+  display: block;
+  position: relative;
+}
+
+
+
+.picker::after {
+  content: ">";
+  position: absolute;
+  right: 12px;
+  transform: rotate(90deg);
+  color: #999;
+  font-size: 12px;
+}
+
+/* 禁用状态 */
+.disabled, input[disabled], textarea[disabled] {
+  background: #f5f7fa !important;
+  color: #c0c4cc !important;
+  cursor: not-allowed;
+}
+
+.disabled::after {
+  display: none;
+}
+
+/* 按钮组 */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  /* 新增宽度限制 */
+  width: calc(100%); /* 抵消父容器padding */
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+button {
+  flex: 1;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 2.4;
+  transition: all 0.3s;
+  /* 防止内容溢出 */
+  min-width: 0;
+  padding: 0 8px;
+    min-width: 0;
+    width: 100%;
+}
+
+button[type="default"] {
+  background: #fff;
+  border: 1px solid #00a1d6;
+  color: #00a1d6;
+}
+
+button[type="primary"] {
+  background: #00a1d6;
+  color: #fff;
+}
+
+.disabled-btn {
+  background: #b8d9e9 !important;
+  color: #fff !important;
+  cursor: not-allowed;
+}
+
+/* 日期选择器特殊样式 */
+
+
+/* 输入框placeholder颜色 */
+input::placeholder, textarea::placeholder {
+  color: #999;
+}

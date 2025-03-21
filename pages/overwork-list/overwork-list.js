@@ -122,7 +122,7 @@ Page({
 
     try {
       const res = await util.request({
-        url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/query',
+        url: 'https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/overwork-query',
         method: 'GET',
         data: {
           current: isRefresh ? 1 : this.data.current+1,
@@ -189,7 +189,7 @@ Page({
 
   addNew() {
     wx.navigateTo({
-      url: `/pages/leave-edit/leave-edit?id=`
+      url: `/pages/overwork-edit/overwork-edit?id=`
     })
   },
 
@@ -197,7 +197,7 @@ Page({
   editItem(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: `/pages/leave-edit/leave-edit?id=${id}`
+      url: `/pages/overwork-edit/overwork-edit?id=${id}`
     })
   },
 
@@ -239,7 +239,7 @@ Page({
 
       try {
         const res = await util.request({
-          url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/audit/${id}`,
+          url: `https://added-mellisa-daliandhc-4db76000.koyeb.app/api/leaves/overwork-audit/${id}`,
           method: 'PUT',
           header: {'Content-Type': 'application/json','Authorization':'Bearer '+this.data.user.token}
         })

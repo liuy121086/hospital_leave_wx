@@ -1,0 +1,113 @@
+<!-- pages/leaveEdit/leaveEdit.wxml -->
+<view class="container">
+  <view class="form-container">
+    
+    <!-- 隐藏字段 -->
+    <!-- <input type="hidden" value="{{formData.id}}" />
+    <input type="hidden" value="{{formData.status}}" /> -->
+
+    <!-- 自动生成的请假编号 -->
+    <view class="form-item">
+      <input 
+        value="{{formData.leaveNo}}" 
+        disabled 
+        placeholder="加班编号自动生成"
+      />
+    </view>
+
+
+
+
+
+    <!-- 员工选择 -->
+    <view class="form-item">
+
+<picker 
+    range="{{employeeOptions}}"
+    range-key="name"
+    value="{{employeeIndex}}"
+    bindchange="changeEmployee"
+    disabled="{{formData.status === 1}}"
+  >
+  <view class="picker {{formData.status === 1 ? 'disabled' : ''}}">员工：{{currentEmployeeName || '请选择'}}</view>
+  </picker>
+    </view>
+
+
+
+    <view class="form-item">
+    
+        <!-- 开始日期选择 -->
+        <picker mode="date" value="{{formData.startDate}}" 
+        start="2025-01-01" end="2027-12-31" 
+        bindchange="onStartDateChange"
+        disabled="{{formData.status === 1}}">
+            <view class="picker">
+            开始日期: {{formData.startDate}}
+            </view>
+        </picker>
+        <!-- 开始时间选择 -->
+        <picker mode="time" value="{{formData.startTime}}" 
+        bindchange="onStartTimeChange"
+        disabled="{{formData.status === 1}}">
+            <view class="picker">
+            开始时间: {{formData.startTime}}
+            </view>
+        </picker>
+
+        <!-- 结束日期选择 -->
+        <picker mode="date" value="{{formData.endDate}}" 
+        start="2025-01-01" end="2027-12-31" 
+        bindchange="onEndDateChange"
+        disabled="{{formData.status === 1}}">
+            <view class="picker">
+            结束日期: {{formData.endDate}}
+            </view>
+        </picker>
+        <!-- 结束时间选择 -->
+        <picker mode="time" value="{{formData.endTime}}" 
+        bindchange="onEndTimeChange"
+        disabled="{{formData.status === 1}}">
+            <view class="picker">
+            结束时间: {{formData.endTime}}
+            </view>
+        </picker>
+    
+    
+    </view>
+
+    <!-- 请假天数 -->
+    <view class="form-item">
+      <input 
+        type="number" 
+        value="{{formData.hours}}" 
+        placeholder="加班小时数"
+        disabled
+      />
+    </view>
+    
+    <!-- 请假原因 -->
+    <view class="form-item">
+      <textarea 
+        value="{{formData.reason}}" 
+        bindinput="inputReason"
+        placeholder="请输入原因"
+        disabled="{{formData.status === 1}}"
+        auto-height
+      />
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="button-group">
+      <button 
+        type="primary"
+        bindtap="saveForm"
+        disabled="{{formData.status === 1}}"
+        class="{{formData.status === 1 ? 'disabled-btn' : ''}}"
+      >
+        保存
+      </button>
+      <button type="primary" bindtap="cancel">取消</button>
+    </view>
+  </view>
+</view>

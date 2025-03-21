@@ -10,7 +10,7 @@ Page({
         {
           icon: '../../static/overtime.png', // 替换为实际图标地址
           title: '加班管理',
-          url: ''
+          url: '/pages/overwork-list/overwork-list'
         },
         {
             icon: '../../static/settings.png', // 替换为实际图标地址

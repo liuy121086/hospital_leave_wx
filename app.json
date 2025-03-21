@@ -4,7 +4,9 @@
     "pages/leave-list/leave-list",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/leave-edit/leave-edit"
+    "pages/leave-edit/leave-edit",
+    "pages/overwork-list/overwork-list",
+    "pages/overwork-edit/overwork-edit"
   ],
   "window": {
     "navigationBarTextStyle": "black",

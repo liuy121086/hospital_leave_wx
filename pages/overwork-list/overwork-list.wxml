@@ -3,7 +3,7 @@
   <!-- 搜索区域 -->
 
   <view class="search-box">
-    <input placeholder="请假编号" bindinput="inputLeaveNo" />
+    <input placeholder="加班编号" bindinput="inputLeaveNo" />
     <picker
       range="{{statusOptions}}"
       range-key="name"
@@ -11,8 +11,8 @@
       <view class="filter-item">状态：{{currentStatusName || '全部'}}</view>
     </picker>
 
-    <input placeholder="请假原因" bindinput="inputReason" />
-    <input placeholder="请假小时数" type="number" bindinput="inputHours" />
+    <input placeholder="加班原因" bindinput="inputReason" />
+    <input placeholder="加班小时数" type="number" bindinput="inputHours" />
   
   <!-- 员工下拉 -->
   <picker 
@@ -23,14 +23,6 @@
     <view class="filter-item">员工：{{currentEmployeeName || '请选择'}}</view>
   </picker>
 
-  <!-- 请假类型下拉 -->
-  <picker 
-    range="{{holidayTypeOptions}}"
-    range-key="name"
-    bindchange="changeHolidayType"
-  >
-    <view class="filter-item">类型：{{currentHolidayTypeName || '全部'}}</view>
-  </picker>
 
   <!-- 日期范围 -->
   <view class="date-range">
@@ -83,7 +75,7 @@
         <text wx:if="{{item.holidayType == 1 }}" style="background-color: {{item.yearHolidays >= 4 ? '#4CAF50' : item.yearHolidays >0? '#FF9800' : '#f40' }}; padding: 2px 5px; border-radius: 5px;font-weight: bold;"> {{item.yearHolidays}}小时 </text>
         <text wx:else style="background-color: {{item.otherHolidays >= 4 ? '#4CAF50' : item.otherHolidays >0? '#FF9800' : '#f40'}}; padding: 2px 5px; border-radius: 5px;font-weight: bold;"> {{item.otherHolidays}}小时 </text>
         </view>
-        <view>假期：{{item.hours}}小时</view>
+        <view>加班：{{item.hours}}小时</view>
         <view>开始时间：{{item.startDate}} {{item.startTime}}</view>
         <view>结束时间：{{item.endDate}} {{item.endTime}}</view>
       </view>
